@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { WiggleBone } from "./Utils/wiggle"
+
 
 import Debug from './Utils/Debug';
 
@@ -13,7 +13,7 @@ import Textures from './Resources/Texture';
 
 let instance = null
 
-console.log(WiggleBone);
+
 
 export default class Experience
 {
@@ -77,6 +77,7 @@ export default class Experience
     {
         this.camera.update()
         this.renderer.update()
+        this.world.cube.update()
     }
 }
 

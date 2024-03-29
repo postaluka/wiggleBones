@@ -14,7 +14,7 @@ export default class World
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.camera = this.experience.camera.instance
-        console.log(this.experience.camera.controls);
+        this.controls = this.experience.camera.controls
 
         this.lights = new Lights()
 
@@ -28,14 +28,13 @@ export default class World
             // this.lights.directionalCameraHelper,
         )
 
-        this.experience.camera.controls.attach(this.cube.instance)
+        // this.controls.attach(this.cube.instance)
 
         // Add models
         this.scene.add(
             this.cube.instance,
             this.floor.instance,
-            this.experience.camera.orbit,
-            this.experience.camera.controls,
+            this.controls
         )
 
 
