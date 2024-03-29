@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
 
 
 import Experience from './Experience'
@@ -15,6 +16,8 @@ export default class Camera
 
         this.setInstance()
         this.setControl()
+
+        this.orbit, this.controls
 
         // this.setDebug()
 
@@ -39,16 +42,33 @@ export default class Camera
 
     setControl()
     {
-        this.controls = new OrbitControls(this.instance, this.canvas)
-        this.controls.enableDamping = true
-        this.controls.maxPolarAngle = Math.PI / 2.1
-        this.controls.minDistance = 15
-        this.controls.maxDistance = 21
-        this.controls.mouseButtons = {
-            LEFT: THREE.MOUSE.ROTATE,
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: null //THREE.MOUSE.PAN
-        }
+        // this.controls = new OrbitControls(this.instance, this.canvas)
+        // this.controls.enableDamping = true
+        // this.controls.maxPolarAngle = Math.PI / 2.1
+        // this.controls.minDistance = 15
+        // this.controls.maxDistance = 21
+        // this.controls.mouseButtons = {
+        //     LEFT: THREE.MOUSE.ROTATE,
+        //     MIDDLE: THREE.MOUSE.DOLLY,
+        //     RIGHT: null //THREE.MOUSE.PAN
+        // }
+
+        this.orbit = new OrbitControls(this.instance, this.canvas);
+        this.orbit.update();
+        // this.orbit.enabled = false
+        // this.orbit.addEventListener('change', render);
+
+        this.controls = new TransformControls(this.instance, this.canvas)
+        // this.controls.addEventListener('change', render);
+
+
+        this.controls.addEventListener('dragging-changed', (event) =>
+        {
+            // console.log(this.orbit);
+            this.orbit.enabled = !event.value
+        });
+
+
     }
 
     setDebug()
@@ -74,10 +94,10 @@ export default class Camera
 
     update()
     {
-        this.controls.update()
+        // this.controls.update()
         // console.log(
-        //     this.instance.position,
-        //     this.instance.rotation
+        //     //     this.instance.position,
+        //     //     this.instance.rotation
         // );
     }
 }

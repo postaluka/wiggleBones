@@ -1,7 +1,7 @@
 import * as THREE from "three"
 
 import Experience from "../../Experience"
-import Materials from "../../Resources/Materials"
+import Loaders from "../../Utils/Loaders"
 
 
 export default class Cube
@@ -11,24 +11,30 @@ export default class Cube
 
         this.experience = new Experience()
 
-        this.materials = new Materials()
+        this.materials = this.experience.materials
+        this.loaders = new Loaders()
 
         // Parameters
         this.side = 3
 
-        // Set cube
-        this.instance = new THREE.Mesh(
-            new THREE.BoxGeometry(this.side, this.side, this.side),
-            this.materials.basic
-        )
-        this.instance.receiveShadow = true
-        this.instance.castShadow = true
+        this.instance = new THREE.Group()
 
-        // Coordinates
-        this.instance.position.y += this.side / 2
+        this.setCube()
 
         // this.debug()
 
+    }
+
+    setCube()
+    {
+        this.loaders.gltf.load(
+            '/3D/cube_01.gltf',
+            (gltf) =>
+            {
+                console.log(gltf);
+                this.instance.add(gltf.scene)
+            }
+        )
     }
 
     debug()
