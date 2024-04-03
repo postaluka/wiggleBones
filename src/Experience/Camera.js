@@ -55,16 +55,12 @@ export default class Camera
 
         this.orbit = new OrbitControls(this.instance, this.canvas);
         this.orbit.update();
-        // this.orbit.enabled = false
-        // this.orbit.addEventListener('change', render);
 
         this.controls = new TransformControls(this.instance, this.canvas)
-        // this.controls.addEventListener('change', render);
 
 
         this.controls.addEventListener('dragging-changed', (event) =>
         {
-            // console.log(this.orbit);
             this.orbit.enabled = !event.value
         });
 

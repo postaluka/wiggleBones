@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-
+import Manager from './Utils/Manager';
 import Debug from './Utils/Debug';
 
 import Sizes from "./Utils/Sizes";
@@ -29,6 +29,7 @@ export default class Experience
 
         this.canvas = canvas
 
+        this.manager = new Manager()
         this.debug = new Debug()
 
         this.textures = new Textures()
@@ -78,6 +79,7 @@ export default class Experience
         this.camera.update()
         this.renderer.update()
         this.world.cube.update()
+        this.world.pillow.update()
     }
 }
 

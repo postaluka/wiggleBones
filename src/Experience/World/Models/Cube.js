@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import { WiggleBone } from "../../Utils/wiggle"
 // import { WiggleBone } from "../../Utils/wiggle/WiggleSpring"
+import { WiggleRigHelper } from "../../Utils/wiggle/WiggleRigHelper";
 
 import Experience from "../../Experience"
 import Loaders from "../../Utils/Loaders"
@@ -27,6 +28,7 @@ export default class Cube
         this.wigglePARAMS.stiffness = 400
         this.wigglePARAMS.damping = 15
 
+
         this.wiggleBones = []
 
         this.debug()
@@ -39,37 +41,31 @@ export default class Cube
             '/3D/cube_03.gltf',
             (gltf) =>
             {
-                console.log(gltf.scene);
+                // console.log('cube', gltf.scene);
                 gltf.scene.scale.set(0.8, 0.8, 0.8)
                 this.instance.add(gltf.scene)
 
-                gltf.scene.traverse((mesh) =>
-                {
-                    if (mesh.isMesh)
-                    {
-                        mesh.castShadow = true
-                        mesh.receiveShadow = true
-                    }
-                })
+                this.addShadows(gltf)
 
-                this.boneRoot = gltf.scene.getObjectByName("Root")
-                this.boneJoint = gltf.scene.getObjectByName('Joint')
-                this.boneJoint1 = gltf.scene.getObjectByName('Joint1')
-                this.boneJoint2 = gltf.scene.getObjectByName('Joint2')
-                this.boneJoint3 = gltf.scene.getObjectByName('Joint3')
+                this.root = gltf.scene.getObjectByName("Root")
+                this.joint = gltf.scene.getObjectByName('Joint')
+                this.joint1 = gltf.scene.getObjectByName('Joint1')
+                this.joint2 = gltf.scene.getObjectByName('Joint2')
+                this.joint3 = gltf.scene.getObjectByName('Joint3')
 
-                this.wiggleBones.push(new WiggleBone(this.boneJoint, { velocity: this.wigglePARAMS.velocity })) //stiffness: більш пружиніста, damping: на скільки швидко затухає рух
-                this.wiggleBones.push(new WiggleBone(this.boneJoint1, { velocity: this.wigglePARAMS.velocity }))
-                this.wiggleBones.push(new WiggleBone(this.boneJoint2, { velocity: this.wigglePARAMS.velocity }))
-                this.wiggleBones.push(new WiggleBone(this.boneJoint3, { velocity: this.wigglePARAMS.velocity }))
+                this.wiggleBones.push(new WiggleBone(this.joint, { velocity: this.wigglePARAMS.velocity })) //stiffness: більш пружиніста, damping: на скільки швидко затухає рух
+                this.wiggleBones.push(new WiggleBone(this.joint1, { velocity: this.wigglePARAMS.velocity }))
+                this.wiggleBones.push(new WiggleBone(this.joint2, { velocity: this.wigglePARAMS.velocity }))
+                this.wiggleBones.push(new WiggleBone(this.joint3, { velocity: this.wigglePARAMS.velocity }))
 
 
-                // console.log(this.boneRoot);
-                this.controls.attach(this.boneRoot)
+                // console.log(this.root);
+                // this.controls.attach(this.root)
 
             }
         )
     }
+
 
     debug()
     {
@@ -78,7 +74,7 @@ export default class Cube
         this.debug = this.experience.debug
         if (this.debug.active)
         {
-            this.debug.ui.add(this.wigglePARAMS, 'velocity', 0, 1, 0.01).name('velocity').onChange((value) =>
+            this.debug.ui.add(this.wigglePARAMS, 'velocity', 0, 1, 0.01).name('velocityCube').onChange((value) =>
             {
                 this.wiggleBones.forEach((wb) =>
                 {
@@ -116,6 +112,19 @@ export default class Cube
         this.wiggleBones.forEach((wb) =>
         {
             wb.update()
+        })
+    }
+
+    addShadows(gltf)
+    {
+
+        gltf.scene.traverse((mesh) =>
+        {
+            if (mesh.isMesh)
+            {
+                mesh.castShadow = true
+                mesh.receiveShadow = true
+            }
         })
     }
 }

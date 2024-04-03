@@ -1,6 +1,12 @@
+import Inspect from 'vite-plugin-inspect'
+import path from 'path'
+
 const isCodeSandbox = 'SANDBOX_URL' in process.env || 'CODESANDBOX_HOST' in process.env
 
 export default {
+    plugins: [
+        Inspect()
+    ],
     root: 'src/',
     publicDir: '../static/',
     base: './',
@@ -11,6 +17,11 @@ export default {
     },
     build:
     {
+        rollupOptions: {
+            input: {
+                main: path.resolve(__dirname, 'index.html'),
+            }
+        },
         outDir: '../dist',
         emptyOutDir: true,
         sourcemap: true
