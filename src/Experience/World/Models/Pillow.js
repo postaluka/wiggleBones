@@ -48,14 +48,6 @@ export default class Pillow
 
                 this.addShadows(gltf)
 
-                this.helper = new WiggleRigHelper({
-                    skeleton: gltf.scene.children[0].children[0].skeleton,
-                });
-
-
-
-                console.log(this.helper);
-
                 // console.log('Root', gltf.scene.children[0].children[1])
                 // console.log('Joint1', gltf.scene.children[0].children[1].children[0])
                 // console.log('Joint2', gltf.scene.children[0].children[1].children[0].children[0])

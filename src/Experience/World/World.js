@@ -44,6 +44,7 @@ export default class World
             this.floor.instance,
             this.controls
         )
+        this.cube.instance.position.set(0, 100, 0)
 
 
         this.setDebug()
